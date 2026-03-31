@@ -280,6 +280,8 @@
 /* --- 3. FOCUS RINGS ------------------------------------------------------ */
 /* Dynamix does not define a :focus-visible token; browser defaults bleed.    */
 
+/* Intentionally universal — applies consistent crema focus ring to all          */
+/* focusable elements including jQuery UI and SweetAlert widgets.                */
 :focus-visible {
   outline: 2px solid var(--rs-accent);
   outline-offset: 2px;
@@ -428,14 +430,14 @@ thead td {
 
 .widget,
 .dashboard-widget,
-[class*="widget-"] {
+[class^="widget-"] {
   border-radius: 6px;
   border: 1px solid var(--rs-border);
 }
 
 .widget h2,
 .dashboard-widget h2,
-[class*="widget-"] h2 {
+[class^="widget-"] h2 {
   color: var(--rs-text-primary);
   border-bottom: 1px solid var(--rs-border-subtle);
   padding-bottom: 6px;
@@ -448,7 +450,7 @@ thead td {
 /* instead: paints behind children, unaffected by bg-color override rules.    */
 
 .usage-disk {
-  box-shadow: inset 0 0 0 100px #5C3018 !important; /* EXCEPTION: inset box-shadow cannot use var() — Dynamix overrides background-color; raw hex matches --rs-border */
+  box-shadow: inset 0 0 0 9999px #5C3018 !important; /* EXCEPTION: raw hex + 9999px spread — Dynamix overrides background-color after our CSS; inset box-shadow trick is unaffected; raw hex matches --rs-border */
 }
 
 .usage-disk > span:first-child {
@@ -488,6 +490,7 @@ select:focus {
 
 a {
   color: var(--rs-accent);
+  transition: color 120ms ease;
 }
 
 a:hover {
