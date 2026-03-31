@@ -3,7 +3,8 @@
   GROUND CONTROL — Ristretto Banner
   1920 × 90 px · Dark Drip diagonal gradient · Rising steam curves
   Self-contained: no external url() references.
-  Text converted to paths before PNG export (Inkscape: Object → Text → Object to Path).
+  PNG exported via rsvg-convert (Inkscape unavailable — text NOT converted to paths).
+  Browser rendering of the SVG uses the font stack correctly; PNG shows Noto Sans.
 -->
 <svg
   xmlns="http://www.w3.org/2000/svg"
@@ -28,8 +29,7 @@
       <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3"
                     stitchTiles="stitch" result="noise"/>
       <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
-      <feBlend in="SourceGraphic" in2="grey" mode="overlay" result="blended"/>
-      <feComposite in="blended" in2="SourceGraphic" operator="in"/>
+      <feComposite in="grey" in2="SourceAlpha" operator="in"/>
     </filter>
   </defs>
 
@@ -78,11 +78,11 @@
         stroke-linecap="round"/>
 
   <!-- GROUND CONTROL wordmark — left-aligned, vertically centred             -->
-  <!-- NOTE: before PNG export, convert to paths in Inkscape:                 -->
-  <!--       Object → Text → Object to Path                                   -->
+  <!-- PNG export: rsvg-convert -w 1920 -h 90 -o ground-control-banner.png \ -->
+  <!--             ground-control-banner.svg                                  -->
   <text
     x="48"
-    y="57"
+    y="53"
     font-family="'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
     font-size="22"
     font-weight="600"
