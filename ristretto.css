@@ -513,4 +513,34 @@ a:focus-visible {
 }
 
 
+/* --- 11. HEADER ICONS — NOTIFICATION BELL + KEY ------------------------- */
+/* Unraid Connect / My Servers React icons render hardcoded SVG fills that   */
+/* --header-text-primary cannot override. Force via selector.                */
+/* If icons still appear wrong: Inspector → find the exact element ID/class  */
+/* and add a targeted rule here.                                              */
+
+#notifications svg,
+#notifications svg path,
+#notifications svg polygon,
+#notifications svg circle,
+[id^="plugin-uc"] svg,
+[id^="plugin-uc"] svg path,
+[id^="plugin-uc"] svg polygon,
+[class*="watcher"] svg,
+[class*="watcher"] svg path,
+header .unraid-connect svg,
+header .unraid-connect svg path {
+  fill: var(--rs-text-primary) !important;
+  color: var(--rs-text-primary) !important;
+}
+
+/* Active / highlighted state — accent crema */
+#notifications.has-notifications svg,
+#notifications.active svg,
+[id^="plugin-uc"].active svg {
+  fill: var(--rs-accent) !important;
+  color: var(--rs-accent) !important;
+}
+
+
 /* === END RISTRETTO v1.0.0 === */
