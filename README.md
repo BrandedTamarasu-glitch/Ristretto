@@ -1,6 +1,6 @@
 # Ristretto — Unraid Theme
 
-A dark Unraid theme inspired by dark roast coffee. Deep brown canvas, pale crema accents, warm ivory text. Design metaphor: a freshly pulled espresso shot — rich, warm, and easy to sit with for long sessions.
+A dark Unraid theme inspired by dark roast coffee. Deep brown canvas, pale crema accents, warm ivory text. Designed for long sessions — rich and warm without the eye strain of cold black-and-white interfaces.
 
 **Companion theme (coming soon):** Crema (light)
 
@@ -10,7 +10,17 @@ A dark Unraid theme inspired by dark roast coffee. Deep brown canvas, pale crema
 
 ![Ristretto Banner](ground-control-banner.png)
 
-<!-- Screenshots: add after live testing on Unraid -->
+### Dashboard
+![Dashboard](screenshots/Dashboard.png)
+
+### Main
+![Main](screenshots/Main.png)
+
+### Plugins
+![Plugins](screenshots/Plugins.png)
+
+### Settings
+![Settings](screenshots/Settings.png)
 
 ---
 
@@ -54,6 +64,7 @@ A dark Unraid theme inspired by dark roast coffee. Deep brown canvas, pale crema
 
 - Tested with Unraid **7.2.4**
 - Base theme: **Black** (dynamix/themes/black.css)
+- Requires: **Simple Custom WebUI CSS** plugin
 - No external dependencies — fully self-contained CSS
 
 ---
@@ -62,9 +73,29 @@ A dark Unraid theme inspired by dark roast coffee. Deep brown canvas, pale crema
 
 Three-layer CSS custom property system:
 
-- **Layer 1** — all hex values as `--rs-*` semantic tokens
-- **Layer 2** — maps every Dynamix CSS variable to an `--rs-*` token
-- **Layer 3** — selector-level overrides for pseudo-elements and states Dynamix can't reach
+- **Layer 1** — all hex values defined once as `--rs-*` semantic tokens
+- **Layer 2** — maps every Dynamix CSS variable to an `--rs-*` token (~70 variables across backgrounds, text, borders, buttons, usage bars, dashboard widgets, and more)
+- **Layer 3** — selector-level overrides for pseudo-elements, interaction states, and elements Dynamix's variable system cannot reach (scrollbars, focus rings, button gradients, chart backgrounds, header icons)
+
+### Notable overrides
+
+| Area | Fix |
+|---|---|
+| Header icons (bell, key) | `.text-header-text-primary` Tailwind class overridden — Unraid bakes a fixed colour at build time |
+| CPU chart grid | `#cpuchart` background elevated to `--rs-surface-2` for grid line contrast |
+| Usage bars | Inset `box-shadow` trick — Dynamix overrides `background-color` after our CSS |
+| Button gradients | Multi-stop gradient cannot use `var()` — crema stops documented as exceptions |
+
+---
+
+## Files
+
+| File | Description |
+|---|---|
+| `ristretto.css` | Full theme — all three layers |
+| `ground-control-banner.svg` | 1920×90 SVG banner — dark drip gradient, steam curves, GROUND CONTROL wordmark |
+| `ground-control-banner.png` | Rasterised 1920×90 PNG |
+| `screenshots/` | Live screenshots from Unraid 7.2.4 |
 
 ---
 
