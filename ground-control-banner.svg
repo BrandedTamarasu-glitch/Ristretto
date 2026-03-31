@@ -31,6 +31,11 @@
       <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
       <feComposite in="grey" in2="SourceAlpha" operator="in"/>
     </filter>
+
+    <!-- Dark glow behind wordmark — lifts text off the gradient background -->
+    <filter id="text-glow" x="-15%" y="-80%" width="130%" height="260%">
+      <feDropShadow dx="0" dy="0" stdDeviation="6" flood-color="#1A0A04" flood-opacity="0.90"/>
+    </filter>
   </defs>
 
   <!-- Base background -->
@@ -77,18 +82,19 @@
         stroke="#E8C9A0" stroke-width="1.0" fill="none" stroke-opacity="0.13"
         stroke-linecap="round"/>
 
-  <!-- GROUND CONTROL wordmark — left-aligned, vertically centred             -->
+  <!-- GROUND CONTROL wordmark — horizontally centred, vertically centred     -->
   <!-- PNG export: rsvg-convert -w 1920 -h 90 -o ground-control-banner.png \ -->
   <!--             ground-control-banner.svg                                  -->
   <text
-    x="48"
-    y="53"
+    x="960"
+    y="54"
+    text-anchor="middle"
     font-family="'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
-    font-size="22"
-    font-weight="600"
-    letter-spacing="0.18em"
-    fill="#E8C9A0"
-    fill-opacity="0.90"
+    font-size="26"
+    font-weight="700"
+    letter-spacing="0.22em"
+    fill="#F0DFC0"
+    filter="url(#text-glow)"
     text-rendering="geometricPrecision">GROUND CONTROL</text>
 
   <!-- 1px crema bottom border -->
