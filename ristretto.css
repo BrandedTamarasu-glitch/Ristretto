@@ -85,6 +85,8 @@
   --rs-surface-2:     #4A2510; /* Elevated surface — modals, focused inputs     */
   --rs-border:        #5C3018; /* Standard border — separators, input outlines  */
   --rs-border-subtle: #4A2510; /* Subtle border — hr, zebra stripe dividers     */
+                               /* INTENTIONAL: same hex as --rs-surface-2;      */
+                               /* visually recedes, semantically distinct token  */
 
   /* --- Text ----------------------------------------------------------------- */
   --rs-text-primary:  #F5E6D0; /* Primary readable text — Warm Ivory            */
@@ -105,5 +107,7 @@
   /* Success (green) and info (blue) deferred to Dynamix base theme defaults.   */
 
   /* --- Dynamix gray scale override ----------------------------------------- */
-  --gray-400:         #5C3018 !important; /* Usage bar track (matches --rs-border) */
+  --gray-400:         #5C3018 !important; /* Dynamix hardcodes this property; without */
+                                          /* !important our value is silently ignored  */
+                                          /* (matches --rs-border)                     */
 }
