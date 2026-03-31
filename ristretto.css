@@ -1,0 +1,109 @@
+/*
+ * =============================================================================
+ * RISTRETTO — Unraid Theme
+ * =============================================================================
+ * Theme name  : Ristretto
+ * Version     : 1.0.0
+ * Tested with : Unraid 7.2.4
+ * Base theme  : Black (dynamix/themes/black.css)
+ * Companion   : Crema (light) — crema.css (future)
+ * Date        : 2026-03-31
+ *
+ * -----------------------------------------------------------------------------
+ * DESIGN METAPHOR
+ * -----------------------------------------------------------------------------
+ * Dark roast coffee. The richness of a freshly pulled espresso — deep brown
+ * canvas, crema floating on top. Text feels like reading a physical book:
+ * warm ivory on warm brown, not clinical white on cold black.
+ *
+ * -----------------------------------------------------------------------------
+ * HOW TO APPLY
+ * -----------------------------------------------------------------------------
+ * 1. Install the "Simple Custom WebUI CSS" Unraid plugin.
+ * 2. Paste the contents of this file into the plugin's CSS field, OR
+ *    copy this file to your flash drive and reference it via the plugin.
+ * 3. Save — the UI reloads with the Ristretto palette applied.
+ *
+ * -----------------------------------------------------------------------------
+ * HOW TO ROLLBACK
+ * -----------------------------------------------------------------------------
+ * 1. Open the Simple Custom WebUI CSS plugin settings.
+ * 2. Clear the CSS field (or disable the plugin).
+ * 3. Save — the default theme is restored immediately.
+ *
+ * -----------------------------------------------------------------------------
+ * ARCHITECTURE — 3-LAYER SYSTEM
+ * -----------------------------------------------------------------------------
+ * Layer 1  (--rs-* palette)
+ *   Defines the canonical colour palette as named semantic tokens.
+ *   ALL hex values live here and ONLY here.
+ *   Other layers reference these tokens via var() — never raw hex.
+ *   Exception: three rgba() values in Layer 2 that cannot traverse a
+ *   var() chain reliably inside Dynamix (documented inline).
+ *
+ * Layer 2  (Dynamix semantic overrides)
+ *   Maps every Dynamix CSS custom property to an --rs-* token.
+ *   Reference: meridian.css Layer 2 for the full variable list.
+ *
+ * Layer 3  (Selector-level polish)
+ *   Targeted selector overrides for elements Dynamix's variable system
+ *   cannot reach — pseudo-elements, hardcoded widget colours, interaction
+ *   states. Each rule includes a comment explaining why vars were insufficient.
+ *
+ * -----------------------------------------------------------------------------
+ * KNOWN LIMITATIONS
+ * -----------------------------------------------------------------------------
+ * 1. Button selector breadth: button:not([class*="ui-"]) catches all
+ *    non-jQuery-UI buttons including destructive actions. Dynamix does not
+ *    expose a distinguishing class for destructive vs safe buttons.
+ *
+ * 2. Checkbox/radio :checked state: depends on whether Dynamix uses native
+ *    browser controls or custom rendering. Not overridden here.
+ *
+ * 3. rgba() var() chain exceptions: Three Layer 2 values use literal rgba()
+ *    — hover table row background, dashboard border, translucent overlay.
+ *    Documented inline.
+ *
+ * -----------------------------------------------------------------------------
+ * SECURITY NOTE
+ * -----------------------------------------------------------------------------
+ * This stylesheet contains NO external url() references. All values are
+ * self-contained CSS custom properties or literal colour values. No fonts,
+ * images, or resources are fetched from any remote origin.
+ * =============================================================================
+ */
+
+
+/* =============================================================================
+   LAYER 1: PALETTE — canonical --rs-* tokens (hex defined here only)
+   ============================================================================= */
+
+:root {
+  /* --- Backgrounds & Surfaces ---------------------------------------------- */
+  --rs-bg:            #261509; /* Page canvas — Dark Drip                       */
+  --rs-surface:       #3D1F0A; /* Primary surface — cards, panels, headers      */
+  --rs-surface-2:     #4A2510; /* Elevated surface — modals, focused inputs     */
+  --rs-border:        #5C3018; /* Standard border — separators, input outlines  */
+  --rs-border-subtle: #4A2510; /* Subtle border — hr, zebra stripe dividers     */
+
+  /* --- Text ----------------------------------------------------------------- */
+  --rs-text-primary:  #F5E6D0; /* Primary readable text — Warm Ivory            */
+  --rs-text-muted:    #9A7A60; /* Secondary/helper text, labels, footer meta    */
+                               /* NOTE: fails WCAG AA for normal-weight body    */
+                               /* text on surface/surface-2. Use only for       */
+                               /* labels, table headers, footer metadata.       */
+  --rs-text-disabled: #7A5C42; /* Disabled state text and border cues           */
+
+  /* --- Accent (Crema) ------------------------------------------------------- */
+  --rs-accent:        #E8C9A0; /* Interactive accent — links, icons, CTAs       */
+  --rs-accent-hover:  #F0DFC0; /* Accent on hover — lighter for elevation feel  */
+  --rs-accent-active: #C8A878; /* Accent on press/active — darker for feedback  */
+
+  /* --- Operational Signals -------------------------------------------------- */
+  --rs-warning:       #FCD34D; /* Warm Yellow — disk temp, low space warnings   */
+  --rs-error:         #EF4444; /* Crimson — parity failure, disk fault          */
+  /* Success (green) and info (blue) deferred to Dynamix base theme defaults.   */
+
+  /* --- Dynamix gray scale override ----------------------------------------- */
+  --gray-400:         #5C3018 !important; /* Usage bar track (matches --rs-border) */
+}
