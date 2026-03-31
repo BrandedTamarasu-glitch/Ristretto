@@ -111,3 +111,120 @@
                                           /* !important our value is silently ignored  */
                                           /* (matches --rs-border)                     */
 }
+
+/* =============================================================================
+   LAYER 2: DYNAMIX SEMANTIC OVERRIDES — maps Dynamix vars to --rs-* tokens
+   ============================================================================= */
+
+:root {
+
+  /* --- Backgrounds --------------------------------------------------------- */
+  --background-color:                var(--rs-bg);       /* Page body background          */
+  --mild-background-color:           var(--rs-surface);  /* Slightly raised surfaces      */
+  --header-background-color:         var(--rs-surface);  /* Top navigation bar            */
+  --footer-background-color:         var(--rs-surface);  /* Bottom footer bar             */
+  --dashboard-background-color:      var(--rs-surface);  /* Dashboard tile backgrounds    */
+  --table-background-color:          var(--rs-bg);       /* Table body rows               */
+  --table-header-background-color:   var(--rs-surface);  /* Table column header row       */
+  --shade-bg-color:                  var(--rs-surface);  /* Shaded/alternate UI surfaces  */
+  --input-bg-color:                  var(--rs-surface);  /* Default input background      */
+  --focus-input-bg-color:            var(--rs-surface-2);/* Input background when focused */
+  --inverse-background-color:        var(--rs-surface-2);/* Inverted panel surfaces       */
+  --title-header-background-color:   var(--rs-surface);  /* Section title header bg       */
+  --usage-disk-background-color:     var(--rs-surface);  /* Disk usage bar track          */
+  --radio-background-color:          var(--rs-surface);  /* Radio button background       */
+  --disabled-input-background-color: var(--rs-surface);  /* Disabled input background     */
+  --opac-background-color:           rgba(38, 21, 9, 0.95); /* EXCEPTION: literal rgba — var() chain unreliable in Dynamix */
+
+  /* --- Text --------------------------------------------------------------- */
+  --text-color:           var(--rs-text-primary);  /* Default body text              */
+  --alt-text-color:       var(--rs-text-muted);    /* Secondary/helper text          */
+  --disabled-text-color:  var(--rs-text-disabled); /* Disabled control text          */
+  --inverse-text-color:   var(--rs-bg);            /* Text on accent/inverted surface*/
+  --header-text-color:    var(--rs-text-primary);  /* Header nav text                */
+  --header-text-primary:  var(--rs-text-primary);  /* My Servers React component icons (bell, key, server) */
+  --footer-text:          var(--rs-text-muted);    /* Footer text — muted, not primary */
+  --link-text-color:      var(--rs-accent);        /* Hyperlink text                 */
+
+  /* --- Borders ------------------------------------------------------------ */
+  --border-color:                var(--rs-border);         /* General purpose border       */
+  --input-border-color:          var(--rs-border);         /* Input field outline          */
+  --table-border-color:          var(--rs-border);         /* Table grid lines             */
+  --hr-color:                    var(--rs-border-subtle);  /* <hr> divider line            */
+  --alt-border-color:            var(--rs-border);         /* Alternate/secondary borders  */
+  --disabled-border-color:       var(--rs-text-disabled);  /* Disabled control borders     */
+  --inverse-border-color:        var(--rs-border);         /* Inverted surface borders     */
+  --textarea-border-color:       var(--rs-border);         /* Textarea outline             */
+  --disabled-input-border-color: var(--rs-text-disabled);  /* Disabled input border        */
+
+  /* --- Buttons ------------------------------------------------------------ */
+  --button-text-color:       var(--rs-accent);   /* Default button label colour    */
+  --button-border:           none;               /* Remove default button border   */
+  --button-background:       var(--rs-surface);  /* Default button background      */
+  --hover-button-border:     var(--rs-accent);   /* Button border on hover         */
+  --hover-button-text-color: #1A0A04;            /* EXCEPTION: near-black on crema fill — no suitable --rs-* token; documented in spec */
+  --hover-button-background: var(--rs-accent);   /* Button fill on hover           */
+
+  /* --- Scrollbar ---------------------------------------------------------- */
+  --scrollbar-color:       var(--rs-border);      /* Scrollbar thumb               */
+  --scrollbar-hover-color: var(--rs-text-muted);  /* Scrollbar thumb on hover      */
+
+  /* --- Tables ------------------------------------------------------------- */
+  --hover-table-row-background-color: rgba(232, 201, 160, 0.08); /* EXCEPTION: literal rgba — var() chain unreliable in Dynamix */
+
+  /* --- Usage / Progress bars ---------------------------------------------- */
+  --usage-bar-background-color:      var(--rs-border);  /* Bar track                       */
+  --usage-bar-used-background-color: var(--rs-accent);  /* Bar fill (used amount)          */
+
+  /* --- Checkboxes & Radios ------------------------------------------------ */
+  --checkbox-color:       var(--rs-text-muted); /* Unchecked checkbox colour      */
+  --checkbox-hover-color: var(--rs-accent);     /* Checkbox colour on hover       */
+
+  /* --- Dashboard ---------------------------------------------------------- */
+  --dashboard-border-color:       rgba(232, 201, 160, 0.10); /* EXCEPTION: literal rgba */
+  --dashboard-icon-color:         var(--rs-accent);           /* Dashboard widget icons  */
+  --dashboard-title-action-color: var(--rs-accent-hover);     /* Dashboard action links  */
+
+  /* --- Shadows ------------------------------------------------------------ */
+  --small-shadow: 0 0 3px rgba(38, 21, 9, 0.8); /* EXCEPTION: literal rgba — bg-tinted drop shadow */
+
+  /* --- Brand token remapping -------------------------------------------- */
+  /* Map to semantic warning/error tokens — NOT accent crema.
+     Unraid uses brand-orange for disk warnings, brand-red for critical errors.
+     Collapsing these into accent crema destroys operational signal distinction. */
+  --brand-orange: var(--rs-warning); /* Disk warnings, temperature alerts     */
+  --brand-red:    var(--rs-error);   /* Critical errors, parity failures       */
+
+  /* --- Dynamix widgets: active state -------------------------------------- */
+  --dynamix-ui-state-active-border-color: var(--rs-accent); /* Active/selected border  */
+
+  /* --- Dynamix widgets: SweetAlert dialogs -------------------------------- */
+  --dynamix-sweet-alert-text-color:    var(--rs-text-primary); /* Alert body text       */
+  --dynamix-sweet-alert-icon-bg-color: var(--rs-surface);      /* Alert icon background */
+
+  /* --- Dynamix widgets: tablesorter --------------------------------------- */
+  --dynamix-tablesorter-thead-th-text-color:    var(--rs-text-primary); /* TH label text       */
+  --dynamix-tablesorter-thead-th-bg-color:      var(--rs-surface);      /* TH cell background  */
+  --dynamix-tablesorter-tbody-row-bg-color:     var(--rs-bg);           /* Default row bg      */
+  --dynamix-tablesorter-tbody-row-alt-bg-color: var(--rs-surface);      /* Zebra stripe row bg */
+  --dynamix-tablesorter-thead-row-border-color: var(--rs-border);       /* Header row border   */
+  --dynamix-tablesorter-tbody-row-border-color: var(--rs-border-subtle);/* Body row border     */
+
+  /* --- Dynamix widgets: select ------------------------------------------- */
+  --dynamix-select-bg-color:          var(--rs-bg);      /* Select dropdown background    */
+  --dynamix-select-box-shadow:        0 2px 0 rgba(38, 21, 9, 0.8), inset 0 0 0 0 var(--rs-bg); /* NOTE: explicit 0 0 blur/spread required for inset stop */
+  --dynamix-select-disabled-bg-color: var(--rs-surface); /* Disabled select background    */
+
+  /* --- Dynamix widgets: box text ----------------------------------------- */
+  --dynamix-box-text-color: var(--rs-text-primary); /* Generic box/widget text       */
+
+  /* --- Dynamix widgets: file tree ---------------------------------------- */
+  --dynamix-filetree-bg-color: var(--rs-bg); /* File tree panel background        */
+
+  /* --- Dynamix widgets: dropdown checklist -------------------------------- */
+  --dynamix-ui-dropdownchecklist-color:                      var(--rs-text-primary); /* Primary text         */
+  --dynamix-ui-dropdownchecklist-color-alt1:                 var(--rs-bg);           /* Alternate bg level 1 */
+  --dynamix-ui-dropdownchecklist-color-alt2:                 var(--rs-text-muted);   /* Alternate muted text */
+  --dynamix-ui-dropdownchecklist-dropcontainer-border-color: var(--rs-accent);       /* Open dropdown border */
+
+}
