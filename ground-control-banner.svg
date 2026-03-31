@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  GROUND CONTROL — Ristretto Banner
+  1920 × 90 px · Dark Drip diagonal gradient · Rising steam curves
+  Self-contained: no external url() references.
+  Text converted to paths before PNG export (Inkscape: Object → Text → Object to Path).
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1920 90"
+  width="1920"
+  height="90"
+  role="img"
+  aria-label="Ground Control — Ristretto theme banner">
+
+  <defs>
+    <!-- Background: diagonal dark drip gradient, darker at edges -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#1A0A04"/>
+      <stop offset="30%"  stop-color="#261509"/>
+      <stop offset="60%"  stop-color="#3D1F0A"/>
+      <stop offset="100%" stop-color="#261509"/>
+    </linearGradient>
+
+    <!-- Grain / noise texture -->
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%"
+            color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3"
+                    stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grey"/>
+      <feBlend in="SourceGraphic" in2="grey" mode="overlay" result="blended"/>
+      <feComposite in="blended" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="1920" height="90" fill="url(#bg-grad)"/>
+
+  <!-- Grain overlay -->
+  <rect width="1920" height="90" filter="url(#grain)" opacity="0.04"/>
+
+  <!-- Rising steam curves — 8 sinuous paths, crema colour, varying opacity -->
+  <!-- Curves originate near bottom, drift upward and terminate mid-field   -->
+  <!-- Spread across the full width; left cluster, centre gaps, right cluster -->
+
+  <!-- Far left -->
+  <path d="M 80 80 Q 72 62 84 44 Q 96 26 88 12"
+        stroke="#E8C9A0" stroke-width="1.5" fill="none" stroke-opacity="0.20"
+        stroke-linecap="round"/>
+  <path d="M 108 80 Q 116 58 104 38 Q 92 18 106 6"
+        stroke="#E8C9A0" stroke-width="1.0" fill="none" stroke-opacity="0.13"
+        stroke-linecap="round"/>
+
+  <!-- Left cluster -->
+  <path d="M 280 80 Q 272 60 284 40 Q 296 20 286 8"
+        stroke="#E8C9A0" stroke-width="1.5" fill="none" stroke-opacity="0.22"
+        stroke-linecap="round"/>
+  <path d="M 306 80 Q 314 55 302 35 Q 290 15 304 4"
+        stroke="#E8C9A0" stroke-width="1.0" fill="none" stroke-opacity="0.14"
+        stroke-linecap="round"/>
+
+  <!-- Centre-left -->
+  <path d="M 640 80 Q 632 58 644 38 Q 656 18 648 7"
+        stroke="#E8C9A0" stroke-width="1.5" fill="none" stroke-opacity="0.18"
+        stroke-linecap="round"/>
+
+  <!-- Centre-right -->
+  <path d="M 1100 80 Q 1092 60 1104 40 Q 1116 20 1108 8"
+        stroke="#E8C9A0" stroke-width="1.5" fill="none" stroke-opacity="0.20"
+        stroke-linecap="round"/>
+
+  <!-- Right cluster -->
+  <path d="M 1560 80 Q 1552 58 1564 38 Q 1576 18 1568 7"
+        stroke="#E8C9A0" stroke-width="1.5" fill="none" stroke-opacity="0.22"
+        stroke-linecap="round"/>
+  <path d="M 1586 80 Q 1594 55 1582 35 Q 1570 15 1584 4"
+        stroke="#E8C9A0" stroke-width="1.0" fill="none" stroke-opacity="0.13"
+        stroke-linecap="round"/>
+
+  <!-- GROUND CONTROL wordmark — left-aligned, vertically centred             -->
+  <!-- NOTE: before PNG export, convert to paths in Inkscape:                 -->
+  <!--       Object → Text → Object to Path                                   -->
+  <text
+    x="48"
+    y="57"
+    font-family="'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+    font-size="22"
+    font-weight="600"
+    letter-spacing="0.18em"
+    fill="#E8C9A0"
+    fill-opacity="0.90"
+    text-rendering="geometricPrecision">GROUND CONTROL</text>
+
+  <!-- 1px crema bottom border -->
+  <rect x="0" y="89" width="1920" height="1" fill="#E8C9A0" fill-opacity="0.30"/>
+
+</svg>
