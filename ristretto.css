@@ -231,3 +231,283 @@
   --dynamix-ui-dropdownchecklist-dropcontainer-border-color: var(--rs-accent);       /* Open dropdown border */
 
 }
+
+/* =============================================================================
+   LAYER 3: SELECTOR-LEVEL POLISH
+   Targeted overrides for elements Dynamix's variable system cannot reach.
+   Each section explains why the variable system was insufficient.
+   ============================================================================= */
+
+
+/* --- 1. SCROLLBARS ------------------------------------------------------- */
+/* ::-webkit-scrollbar pseudo-elements are not reachable via Dynamix vars.    */
+/* Base color: --rs-border (#5C3018). Opacities: resting 0.30, hover 0.55.   */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(92, 48, 24, 0.30); /* --rs-border at 0.30 opacity */
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(92, 48, 24, 0.55); /* --rs-border at 0.55 opacity */
+}
+
+
+/* --- 2. TEXT SELECTION --------------------------------------------------- */
+/* ::selection is not reachable via Dynamix variables.                        */
+/* Crema-tinted selection — rgba(232, 201, 160, 0.3) gives warm highlight.   */
+
+::selection {
+  background: rgba(232, 201, 160, 0.3);
+  color: var(--rs-text-primary);
+}
+
+::-moz-selection {
+  background: rgba(232, 201, 160, 0.3);
+  color: var(--rs-text-primary);
+}
+
+
+/* --- 3. FOCUS RINGS ------------------------------------------------------ */
+/* Dynamix does not define a :focus-visible token; browser defaults bleed.    */
+
+:focus-visible {
+  outline: 2px solid var(--rs-accent);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* --- 4. NAVIGATION — ACTIVE STATE --------------------------------------- */
+/* Dynamix's --dynamix-ui-state-active-border-color covers borders only;      */
+/* it cannot produce the directional gradient fade-right glow.                */
+
+.nav li.active > a,
+.nav li.active > a:hover,
+#navigation li.active > a,
+#navigation li.active > a:hover {
+  border-left: 2px solid var(--rs-accent);
+  background: linear-gradient(90deg, rgba(232, 201, 160, 0.10) 0%, transparent 70%);
+  padding-left: 10px;
+}
+
+.nav li > a,
+#navigation li > a {
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.nav li:not(.active) > a:hover,
+#navigation li:not(.active) > a:hover {
+  background: rgba(232, 201, 160, 0.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav li > a,
+  #navigation li > a {
+    transition: none;
+  }
+}
+
+
+/* --- 5. BUTTONS — 3-STATE GRADIENT -------------------------------------- */
+/* Dynamix button vars set flat bg/border tokens only; they cannot express    */
+/* multi-stop gradients, box-shadow rings, or the pressed translateY micro.   */
+/* Gradient hex exceptions: hover-stop uses --rs-accent-hover (#F0DFC0),      */
+/* active uses --rs-accent-active (#C8A878) — documented deviations.          */
+
+.ui-button,
+button:not([class*="ui-"]),
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  background: linear-gradient(180deg, #F0DFC0 0%, #E8C9A0 60%, #C8A878 100%);
+  box-shadow: 0 1px 2px rgba(38, 21, 9, 0.5), 0 0 0 1px rgba(232, 201, 160, 0.2);
+  border: none;
+  color: #1A0A04; /* dark text on pale crema — documented exception */
+  border-radius: 4px;
+}
+
+.ui-button:hover,
+button:not([class*="ui-"]):hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  background: linear-gradient(180deg, #F5EDD8 0%, #F0DFC0 60%, #E8C9A0 100%);
+  box-shadow: 0 2px 8px rgba(232, 201, 160, 0.25), 0 0 0 1px rgba(232, 201, 160, 0.3);
+}
+
+.ui-button:active,
+button:not([class*="ui-"]):active,
+input[type="button"]:active,
+input[type="submit"]:active,
+input[type="reset"]:active {
+  background: #C8A878; /* --rs-accent-active */
+  box-shadow: inset 0 1px 3px rgba(38, 21, 9, 0.4);
+  transform: translateY(1px);
+}
+
+.ui-button:disabled,
+.ui-button[disabled],
+button:not([class*="ui-"]):disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled {
+  background: var(--rs-surface);
+  box-shadow: none;
+  color: var(--rs-text-disabled);
+  border: 1px solid var(--rs-border);
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.ui-button,
+button:not([class*="ui-"]),
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  transition: background 120ms ease, box-shadow 120ms ease, transform 80ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-button,
+  button:not([class*="ui-"]),
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    transition: none;
+    transform: none;
+  }
+}
+
+
+/* --- 6. TYPOGRAPHY ------------------------------------------------------- */
+/* Structural rules only — font-family and font-size left to Unraid defaults. */
+/* Book-like feel: warm background texture, comfortable line-height.          */
+
+body {
+  line-height: 1.5;
+  background-color: var(--rs-bg);
+  background-image: radial-gradient(circle, rgba(232, 201, 160, 0.05) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.nav a,
+.nav li > a,
+#navigation a,
+#navigation li > a {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+h1 { font-weight: 600; letter-spacing: -0.01em; line-height: 1.3;  }
+h2 { font-weight: 600; letter-spacing: 0;        line-height: 1.35; }
+h3 { font-weight: 600; letter-spacing: 0;        line-height: 1.4;  }
+
+th,
+thead td {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+
+/* --- 7. DASHBOARD WIDGETS ------------------------------------------------ */
+/* Dynamix dashboard vars set color tokens but not geometry.                  */
+
+.widget,
+.dashboard-widget,
+[class*="widget-"] {
+  border-radius: 6px;
+  border: 1px solid var(--rs-border);
+}
+
+.widget h2,
+.dashboard-widget h2,
+[class*="widget-"] h2 {
+  color: var(--rs-text-primary);
+  border-bottom: 1px solid var(--rs-border-subtle);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+
+/* --- 8. USAGE BARS ------------------------------------------------------- */
+/* Dynamix overrides background-color after our CSS. Use inset box-shadow     */
+/* instead: paints behind children, unaffected by bg-color override rules.    */
+
+.usage-disk {
+  box-shadow: inset 0 0 0 100px #5C3018 !important; /* EXCEPTION: inset box-shadow cannot use var() — Dynamix overrides background-color; raw hex matches --rs-border */
+}
+
+.usage-disk > span:first-child {
+  background: var(--rs-accent) !important;
+  position: absolute !important;
+  z-index: 1 !important;
+}
+
+.usage-bar-used,
+[class*="usage"][class*="used"],
+.bar-fill {
+  background: var(--rs-accent);
+}
+
+
+/* --- 9. FORM INPUTS — FOCUS STATE --------------------------------------- */
+/* --focus-input-bg-color covers background only; it cannot express border    */
+/* colour change or ambient glow box-shadow on focus.                         */
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--rs-accent);
+  box-shadow: 0 0 0 2px rgba(232, 201, 160, 0.2);
+  outline: none;
+}
+
+
+/* --- 10. LINKS — ALL STATES --------------------------------------------- */
+/* --link-text-color covers resting state only. Hover transition to           */
+/* --rs-accent-hover and visited suppression require selector overrides.      */
+
+a {
+  color: var(--rs-accent);
+}
+
+a:hover {
+  color: var(--rs-accent-hover);
+}
+
+/* Suppress browser-default purple — visited links stay crema on warm brown */
+a:visited {
+  color: var(--rs-accent);
+}
+
+a:focus-visible {
+  outline: 2px solid var(--rs-accent);
+  outline-offset: 2px;
+}
+
+/* Dynamix hardcodes .blue-text — override to palette accent */
+.blue-text {
+  color: var(--rs-accent) !important;
+}
+
+
+/* === END RISTRETTO v1.0.0 === */
