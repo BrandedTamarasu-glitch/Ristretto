@@ -425,7 +425,16 @@ thead td {
 }
 
 
-/* --- 7. DASHBOARD WIDGETS ------------------------------------------------ */
+/* --- 7. DASHBOARD CHARTS ------------------------------------------------- */
+/* Canvas is transparent — grid lines drawn in a dark default colour vanish   */
+/* on our dark bg. Elevate the canvas background so grid lines show through.  */
+
+#cpuchart {
+  background: var(--rs-surface-2);
+  border-radius: 3px;
+}
+
+/* --- 7b. DASHBOARD WIDGETS ----------------------------------------------- */
 /* Dynamix dashboard vars set color tokens but not geometry.                  */
 
 .widget,
