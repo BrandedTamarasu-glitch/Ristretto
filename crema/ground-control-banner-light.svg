@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ground-control-banner-light.svg
+  Crema Light Theme - 1920x90 morning-light banner
+
+  FONT DECISION: Option B - text element retained (source file).
+  Inkscape was not available at generation time to perform path conversion.
+  This SVG is the source. The PNG export (ground-control-banner-light.png)
+  is the deployed Unraid asset; it has no font dependency.
+  If converting the SVG to a deployed asset, open in Inkscape and run:
+    Object > Text > Object to Path
+  then save back before deploying the SVG directly.
+
+  TOKEN VALUES (Wave 1 WCAG-adjusted actuals):
+    cr-text-primary #261509  (espresso — wordmark fill)
+    cr-accent       #906050  (plan spec was #A0714F - failed WCAG AA; adjusted)
+    cr-accent-hover #7A4F30  (plan spec was #8A5D3C)
+    cr-warning      #7A3600  (plan spec was #B45309)
+    cr-error        #8B1A1A  (plan spec was #DC2626)
+  Bottom border uses #906050 (adjusted accent).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="90" viewBox="0 0 1920 90">
+  <defs>
+
+    <!-- Background: warm cream diagonal gradient -->
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#F2E8D8"/>
+      <stop offset="35%"  stop-color="#EBD9C0"/>
+      <stop offset="65%"  stop-color="#F0E4CE"/>
+      <stop offset="100%" stop-color="#DEC9A8"/>
+    </linearGradient>
+
+    <!-- Light ray fade: opaque at origin (right), transparent at fade point -->
+    <linearGradient id="ray-fade-1" x1="100%" y1="0%" x2="40%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(200,160,80,0.35)"/>
+      <stop offset="100%" stop-color="rgba(200,160,80,0)"/>
+    </linearGradient>
+    <linearGradient id="ray-fade-2" x1="100%" y1="0%" x2="45%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(200,160,80,0.30)"/>
+      <stop offset="100%" stop-color="rgba(200,160,80,0)"/>
+    </linearGradient>
+    <linearGradient id="ray-fade-3" x1="100%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(200,160,80,0.28)"/>
+      <stop offset="100%" stop-color="rgba(200,160,80,0)"/>
+    </linearGradient>
+    <linearGradient id="ray-fade-4" x1="100%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(200,160,80,0.25)"/>
+      <stop offset="100%" stop-color="rgba(200,160,80,0)"/>
+    </linearGradient>
+    <linearGradient id="ray-fade-5" x1="100%" y1="0%" x2="45%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(200,160,80,0.27)"/>
+      <stop offset="100%" stop-color="rgba(200,160,80,0)"/>
+    </linearGradient>
+    <linearGradient id="ray-fade-6" x1="100%" y1="0%" x2="42%" y2="100%">
+      <stop offset="0%"   stop-color="rgba(200,160,80,0.32)"/>
+      <stop offset="100%" stop-color="rgba(200,160,80,0)"/>
+    </linearGradient>
+
+    <!-- Grain texture -->
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feBlend in="SourceGraphic" mode="overlay" result="blend"/>
+      <feComposite in="blend" in2="SourceGraphic" operator="in"/>
+    </filter>
+
+  </defs>
+
+  <!-- Background fill -->
+  <rect width="1920" height="90" fill="url(#bg-grad)"/>
+
+  <!-- Grain overlay at very low opacity -->
+  <rect width="1920" height="90" fill="white" filter="url(#grain)" opacity="0.03"/>
+
+  <!-- Morning light rays: originate off-canvas upper-right (~1960, -10)
+       All rays fade to transparent before x=960 (left half stays clean).
+       Rays do not extend below y=75. -->
+  <!-- Ray 1: steep angle -->
+  <polygon points="1920,0 1960,-10 970,74" fill="url(#ray-fade-1)"/>
+  <!-- Ray 2 -->
+  <polygon points="1920,0 1960,-10 980,70" fill="url(#ray-fade-2)"/>
+  <!-- Ray 3 -->
+  <polygon points="1960,-10 1920,15 990,65" fill="url(#ray-fade-3)"/>
+  <!-- Ray 4: wider spread -->
+  <polygon points="1960,-10 1920,30 1000,60" fill="url(#ray-fade-4)"/>
+  <!-- Ray 5 -->
+  <polygon points="1960,-10 1920,45 1010,55" fill="url(#ray-fade-5)"/>
+  <!-- Ray 6: shallow angle -->
+  <polygon points="1960,-10 1920,60 1020,50" fill="url(#ray-fade-6)"/>
+
+  <!-- Wordmark: GROUND CONTROL, espresso on cream, horizontally centred.
+       Font dependency exists here. This is the source SVG.
+       For deployment as SVG: convert to paths in Inkscape first.
+       For deployment as PNG: use ground-control-banner-light.png (no font dep). -->
+  <text
+    x="960"
+    y="57"
+    text-anchor="middle"
+    font-family="'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+    font-size="28"
+    font-weight="800"
+    letter-spacing="5"
+    fill="#261509"
+    text-rendering="geometricPrecision"
+  >GROUND CONTROL</text>
+
+  <!-- Bottom border: 1px copper line at y=89, adjusted accent #906050 -->
+  <rect x="0" y="89" width="1920" height="1" fill="#906050" opacity="0.5"/>
+
+</svg>

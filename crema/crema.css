@@ -1,0 +1,683 @@
+/*
+ * =============================================================================
+ * CREMA — Unraid Light Theme
+ * =============================================================================
+ * Theme name  : Crema
+ * Version     : 1.0.0
+ * Tested with : Unraid 7.2.4
+ * Base theme  : White (dynamix/themes/white.css)
+ * Companion   : Ristretto (dark) — same token family, inverted register
+ * Date        : 2026-03-31
+ *
+ * -----------------------------------------------------------------------------
+ * HOW TO APPLY
+ * -----------------------------------------------------------------------------
+ * 1. Copy this file to your Unraid flash drive:
+ *      /boot/config/plugins/dynamix/themes/crema.css
+ * 2. In the Unraid web UI navigate to:
+ *      Settings > Display Settings > Theme
+ * 3. Select "Custom CSS" and reference the file path above, OR paste the
+ *    contents into the Custom CSS field directly.
+ * 4. Save — the UI reloads with the Crema palette applied.
+ *
+ * -----------------------------------------------------------------------------
+ * HOW TO ROLLBACK
+ * -----------------------------------------------------------------------------
+ * 1. Navigate to: Settings > Display Settings > Theme
+ * 2. Set Theme back to "White" (or your previous theme).
+ * 3. Clear the Custom CSS field if you pasted content there.
+ * 4. Save — the default White theme is restored immediately.
+ * 5. Delete crema.css from the flash drive if no longer needed.
+ *
+ * -----------------------------------------------------------------------------
+ * ARCHITECTURE — 3-LAYER SYSTEM
+ * -----------------------------------------------------------------------------
+ * Layer 1  (--cr-* palette)
+ *   Defines the canonical colour palette as named semantic tokens.
+ *   ALL hex values live here and ONLY here.
+ *   Other layers reference these tokens via var() — never raw hex.
+ *   Exceptions documented inline: nine rgba() values, badge text #F2E8D8,
+ *   error badge #FFFFFF, button gradients, --inverse-text-color #F2E8D8.
+ *
+ * Layer 2  (Dynamix semantic overrides)
+ *   Maps every Dynamix CSS custom property to a --cr-* token.
+ *   Targets Dynamix White base theme. No raw hex except documented exceptions.
+ *
+ * Layer 3  (Selector-level polish)
+ *   Targeted selector overrides for elements Dynamix's variable system
+ *   cannot reach. Follows Meridian Layer 3 as the selector checklist.
+ *
+ * -----------------------------------------------------------------------------
+ * KNOWN LIMITATIONS
+ * -----------------------------------------------------------------------------
+ * 1. Button selector breadth: button:not([class*="ui-"]) catches all non-jQuery-UI
+ *    buttons including destructive actions. Dynamix exposes no distinguishing class.
+ * 2. Checkbox/radio :checked state: may need targeted additions after live inspect.
+ * 3. Nine rgba() values use literals — var() chains unreliable in Dynamix for these.
+ * 4. Base theme: Dynamix White. Behaviour on Dynamix Black is untested.
+ * 5. .blue-text Dynamix hardcoding: overridden in Layer 3.
+ * 6. Accent #A0714F on --cr-surface-2 (#CDB899) is ~2.5:1 — interactive elements
+ *    on elevated surfaces use --cr-accent-hover (#8A5D3C) instead. See Layer 3.
+ *
+ * -----------------------------------------------------------------------------
+ * SECURITY NOTE
+ * -----------------------------------------------------------------------------
+ * This stylesheet contains NO external url() references. All values are
+ * self-contained CSS custom properties or literal colour values.
+ * =============================================================================
+ */
+
+
+/* =============================================================================
+   LAYER 1: PALETTE — canonical --cr-* tokens (hex defined here only)
+   ============================================================================= */
+
+:root {
+
+  /* --- Backgrounds & Surfaces ----------------------------------------------- */
+  --cr-bg:                #EBD9C0; /* Page canvas — Latte                          */
+  --cr-surface:           #DEC9A8; /* Primary surface — cards, panels, header      */
+  --cr-surface-2:         #CDB899; /* Elevated surface — modals, focused inputs    */
+  --cr-surface-highlight: #F5EDE0; /* Specular highlight — focused card, hovered tile */
+  --cr-border:            #C9B08A; /* Standard border — separators, input outlines */
+  --cr-border-subtle:     #DEC9A8; /* Subtle border — hr, low-contrast dividers    */
+
+  /* --- Text ------------------------------------------------------------------ */
+  --cr-text-primary:  #261509; /* Primary readable text — Deep Espresso            */
+  --cr-text-muted:    #7A5C42; /* Secondary/helper text, labels, footer meta       */
+  --cr-text-disabled: #9A7A60; /* Disabled state text and border cues              */
+
+  /* --- Accent (Warm Copper) -------------------------------------------------- */
+  --cr-accent:        #906050; /* Interactive accent — links, icons, CTAs, nav active */
+  --cr-accent-hover:  #7A4F30; /* Accent on hover — darker for elevation on light bg  */
+  --cr-accent-active: #6B4830; /* Accent on press/active — darkest for feedback       */
+
+  /* --- Operational Signals --------------------------------------------------- */
+  --cr-warning: #7A3600; /* Dark amber — disk temp, low space warnings (passes 4.5:1 on all surfaces) */
+  --cr-error:   #8B1A1A; /* Dark crimson — parity failure, disk fault (passes 4.5:1 on all surfaces)  */
+
+}
+
+
+/* =============================================================================
+   LAYER 2: DYNAMIX SEMANTIC OVERRIDES — maps Dynamix vars to --cr-* tokens
+   Authoritative variable list: /home/corye/Claude/General/meridian.css Layer 2
+   Target base theme: Dynamix White
+   ============================================================================= */
+
+:root {
+
+  /* --- Backgrounds --------------------------------------------------------- */
+  --background-color:                var(--cr-bg);       /* Page body background          */
+  --mild-background-color:           var(--cr-surface);  /* Slightly raised surfaces      */
+  --header-background-color:         var(--cr-surface);  /* Top navigation bar            */
+  --footer-background-color:         var(--cr-surface);  /* Bottom footer bar             */
+  --dashboard-background-color:      var(--cr-surface);  /* Dashboard tile backgrounds    */
+  --table-background-color:          var(--cr-bg);       /* Table body rows               */
+  --table-header-background-color:   var(--cr-surface);  /* Table column header row       */
+  --shade-bg-color:                  var(--cr-surface);  /* Shaded/alternate UI surfaces  */
+  --input-bg-color:                  var(--cr-surface);  /* Default input background      */
+  --focus-input-bg-color:            var(--cr-surface-2);/* Input background when focused */
+  --inverse-background-color:        var(--cr-surface-2);/* Inverted panel surfaces       */
+  --title-header-background-color:   var(--cr-surface);  /* Section title header bg       */
+  --usage-disk-background-color:     var(--cr-surface);  /* Disk usage bar track          */
+  --radio-background-color:          var(--cr-surface);  /* Radio button background       */
+  --disabled-input-background-color: var(--cr-surface);  /* Disabled input background     */
+  --opac-background-color:           rgba(235, 217, 192, 0.95); /* EXCEPTION: canvas-tinted translucent overlay */
+
+  /* --- Text --------------------------------------------------------------- */
+  --text-color:           var(--cr-text-primary);  /* Default body text              */
+  --alt-text-color:       var(--cr-text-muted);    /* Secondary/helper text          */
+  --disabled-text-color:  var(--cr-text-disabled); /* Disabled control text          */
+  --inverse-text-color:   #F2E8D8;                 /* EXCEPTION: near-cream on copper accent surface — no suitable --cr-* token */
+  --header-text-color:    var(--cr-text-primary);  /* Header nav text                */
+  --footer-text:          var(--cr-text-muted);    /* Footer text                    */
+  --link-text-color:      var(--cr-accent);        /* Hyperlink text                 */
+
+  /* --- Borders ------------------------------------------------------------ */
+  --border-color:                    var(--cr-border);         /* General purpose border    */
+  --input-border-color:              var(--cr-border);         /* Input field outline       */
+  --table-border-color:              var(--cr-border);         /* Table grid lines          */
+  --hr-color:                        var(--cr-border-subtle);  /* <hr> divider line         */
+  --alt-border-color:                var(--cr-border);         /* Alternate/secondary border*/
+  --disabled-border-color:           var(--cr-text-disabled);  /* Disabled control borders  */
+  --inverse-border-color:            var(--cr-border);         /* Inverted surface borders  */
+  --textarea-border-color:           var(--cr-border);         /* Textarea outline          */
+  --disabled-input-border-color:     var(--cr-text-disabled);  /* Disabled input border     */
+
+  /* --- Buttons ------------------------------------------------------------ */
+  --button-text-color:       var(--cr-accent);   /* Default button label colour    */
+  --button-border:           none;               /* Remove default button border   */
+  --button-background:       var(--cr-surface);  /* Default button background      */
+  --hover-button-border:     var(--cr-accent);   /* Button border on hover         */
+  --hover-button-text-color: #F2E8D8;            /* EXCEPTION: near-cream on copper hover */
+  --hover-button-background: var(--cr-accent);   /* Button fill on hover           */
+
+  /* --- Scrollbar ---------------------------------------------------------- */
+  --scrollbar-color:       var(--cr-border);       /* Scrollbar thumb               */
+  --scrollbar-hover-color: var(--cr-text-muted);   /* Scrollbar thumb on hover      */
+
+  /* --- Tables ------------------------------------------------------------- */
+  --hover-table-row-background-color: rgba(144, 96, 80, 0.08); /* EXCEPTION: copper-tinted row hover (--cr-accent rgb) */
+
+  /* --- Usage / Progress bars ---------------------------------------------- */
+  --usage-bar-background-color:      var(--cr-border);  /* Bar track (unfilled)         */
+  --usage-bar-used-background-color: var(--cr-accent);  /* Bar fill (used amount)       */
+
+  /* --- Checkboxes & Radios ------------------------------------------------ */
+  --checkbox-color:       var(--cr-text-muted); /* Unchecked checkbox colour      */
+  --checkbox-hover-color: var(--cr-accent);     /* Checkbox colour on hover       */
+
+  /* --- Dashboard ---------------------------------------------------------- */
+  --dashboard-border-color:       rgba(144, 96, 80, 0.10); /* EXCEPTION: copper-tinted widget border (--cr-accent rgb) */
+  --dashboard-icon-color:         var(--cr-accent);         /* Dashboard widget icons    */
+  --dashboard-title-action-color: var(--cr-accent-hover);   /* Dashboard action links    */
+
+  /* --- Shadows ------------------------------------------------------------ */
+  --small-shadow: 0 0 3px rgba(38, 21, 9, 0.15); /* EXCEPTION: espresso-tinted drop shadow (--cr-text-primary rgb) */
+
+  /* --- Brand token remapping ---------------------------------------------- */
+  /* Map to semantic warning/error tokens — NOT accent copper.
+     Unraid uses brand-orange for disk warnings, brand-red for critical errors.
+     Collapsing these into accent copper destroys operational signal distinction. */
+  --brand-orange: var(--cr-warning); /* Disk warnings, temperature alerts     */
+  --brand-red:    var(--cr-error);   /* Critical errors, parity failures       */
+
+  /* --- Dynamix widgets: active state -------------------------------------- */
+  --dynamix-ui-state-active-border-color: var(--cr-accent); /* Active/selected border  */
+
+  /* --- Dynamix widgets: SweetAlert dialogs -------------------------------- */
+  --dynamix-sweet-alert-text-color:    var(--cr-text-primary); /* Alert body text       */
+  --dynamix-sweet-alert-icon-bg-color: var(--cr-surface);      /* Alert icon background */
+
+  /* --- Dynamix widgets: tablesorter --------------------------------------- */
+  --dynamix-tablesorter-thead-th-text-color:    var(--cr-text-primary); /* TH label text       */
+  --dynamix-tablesorter-thead-th-bg-color:      var(--cr-surface);      /* TH cell background  */
+  --dynamix-tablesorter-tbody-row-bg-color:     var(--cr-bg);           /* Default row bg      */
+  --dynamix-tablesorter-tbody-row-alt-bg-color: var(--cr-surface);      /* Zebra stripe row bg */
+  --dynamix-tablesorter-thead-row-border-color: var(--cr-border);       /* Header row border   */
+  --dynamix-tablesorter-tbody-row-border-color: var(--cr-border-subtle);/* Body row border     */
+
+  /* --- Dynamix widgets: select ------------------------------------------- */
+  --dynamix-select-bg-color:           var(--cr-bg);      /* Select dropdown background    */
+  --dynamix-select-box-shadow:         0 0 0 2px rgba(144, 96, 80, 0.30), inset 0 -1px var(--cr-bg); /* EXCEPTION: copper focus ring (--cr-accent rgb) */
+  --dynamix-select-disabled-bg-color:  var(--cr-surface); /* Disabled select background    */
+
+  /* --- Dynamix widgets: misc ---------------------------------------------- */
+  --dynamix-box-text-color:            var(--cr-text-primary); /* Generic box/widget text  */
+  --dynamix-filetree-bg-color:         var(--cr-bg);           /* File tree panel bg       */
+
+  /* --- Dynamix widgets: dropdown checklist -------------------------------- */
+  --dynamix-ui-dropdownchecklist-color:                      var(--cr-text-primary); /* Primary text        */
+  --dynamix-ui-dropdownchecklist-color-alt1:                 var(--cr-bg);           /* Alt bg level 1      */
+  --dynamix-ui-dropdownchecklist-color-alt2:                 var(--cr-text-muted);   /* Alt text/muted      */
+  --dynamix-ui-dropdownchecklist-dropcontainer-border-color: var(--cr-accent);       /* Open dropdown border*/
+
+  /* --- Dynamix override: usage bar track ---------------------------------- */
+  --gray-400: #C9B08A !important; /* Usage bar track — matches --cr-border for warm tone alignment */
+
+  /* --- React My Servers component icons ----------------------------------- */
+  /* --header-text-primary controls bell/server/key icons specifically
+     (not --header-text-color). Learned from Meridian/Ristretto. */
+  --header-text-primary: var(--cr-text-primary); /* espresso — icons need full contrast on cream header */
+
+}
+
+
+/* =============================================================================
+   LAYER 3: SELECTOR-LEVEL POLISH
+   Targeted selector overrides for elements the Dynamix variable system cannot
+   reach. Follows Meridian Layer 3 as the selector checklist.
+   ============================================================================= */
+
+
+/* --- 1. SCROLLBARS ------------------------------------------------------- */
+/* ::-webkit-scrollbar pseudo-elements are not reachable via Dynamix vars      */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(201, 176, 138, 0.35); /* --cr-border (#C9B08A) at 0.35 opacity */
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(201, 176, 138, 0.60); /* --cr-border (#C9B08A) at 0.60 opacity */
+}
+
+
+/* --- 2. TEXT SELECTION --------------------------------------------------- */
+/* ::selection is a pseudo-element; no Dynamix variable covers it              */
+
+::selection {
+  background: rgba(144, 96, 80, 0.25); /* EXCEPTION: copper-tinted — --cr-accent rgb at 0.25 */
+  color: var(--cr-text-primary);
+}
+
+::-moz-selection {
+  background: rgba(144, 96, 80, 0.25);
+  color: var(--cr-text-primary);
+}
+
+
+/* --- 3. FOCUS RINGS ------------------------------------------------------ */
+/* Dynamix does not define a :focus-visible token; browser defaults bleed       */
+
+:focus-visible {
+  outline: 2px solid var(--cr-accent);
+  outline-offset: 2px;
+}
+
+/* Suppress the default outline on non-keyboard focus paths (mouse clicks)     */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+
+/* --- 4. NAVIGATION — ACTIVE STATE --------------------------------------- */
+/* Crema: bottom border underline only — no gradient glow.
+   Gradient glow is a dark-theme affordance; on cream it reads as noise.
+   This is an intentional divergence from Ristretto/Meridian's left-gutter style. */
+
+.nav li.active > a,
+.nav li.active > a:hover,
+#navigation li.active > a,
+#navigation li.active > a:hover {
+  color: var(--cr-accent);
+  border-bottom: 2px solid var(--cr-accent);
+  border-left: none; /* suppress Meridian/Ristretto left-border style */
+  background: none;
+}
+
+/* Transitions on all nav items */
+.nav li > a,
+#navigation li > a {
+  transition: color 150ms ease, background 150ms ease;
+}
+
+/* Hover on non-active nav items — copper-tinted bg */
+.nav li:not(.active) > a:hover,
+#navigation li:not(.active) > a:hover {
+  background: rgba(144, 96, 80, 0.08); /* EXCEPTION: copper-tinted hover (--cr-accent rgb) */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav li > a,
+  #navigation li > a {
+    transition: none;
+  }
+}
+
+
+/* --- 5. BUTTONS — 3-STATE GRADIENT -------------------------------------- */
+/* Dynamix button vars set flat bg/border tokens only; they cannot express
+   multi-stop gradients, box-shadow rings, or the pressed translateY micro.    */
+/* Button gradient raw hex values — documented exception in spec.              */
+
+/* Resting state — warm copper gradient */
+.ui-button,
+button:not([class*="ui-"]),
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  background: linear-gradient(180deg, #A27262 0%, #906050 100%);
+  box-shadow: 0 1px 2px rgba(38, 21, 9, 0.20), 0 0 0 1px rgba(144, 96, 80, 0.20);
+  border: none;
+  color: #F2E8D8; /* EXCEPTION: near-cream for legibility on copper */
+  border-radius: 4px;
+}
+
+/* Hover state — deeper gradient */
+.ui-button:hover,
+button:not([class*="ui-"]):hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+input[type="reset"]:hover {
+  background: linear-gradient(180deg, #906050 0%, #7A4F30 100%);
+  box-shadow: 0 2px 8px rgba(144, 96, 80, 0.30), 0 0 0 1px rgba(144, 96, 80, 0.30);
+}
+
+/* Active/pressed state — darkest espresso, inset shadow */
+.ui-button:active,
+button:not([class*="ui-"]):active,
+input[type="button"]:active,
+input[type="submit"]:active,
+input[type="reset"]:active {
+  background: linear-gradient(180deg, #7A4F30 0%, #6B4830 100%);
+  box-shadow: inset 0 1px 3px rgba(38, 21, 9, 0.30);
+  transform: translateY(1px);
+}
+
+/* Disabled state — flat, desaturated, no pointer */
+.ui-button:disabled,
+.ui-button[disabled],
+button:not([class*="ui-"]):disabled,
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled {
+  background: var(--cr-surface);
+  box-shadow: none;
+  color: var(--cr-text-disabled);
+  border: 1px solid var(--cr-border);
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Button transitions (respects reduced motion) */
+.ui-button,
+button:not([class*="ui-"]),
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  transition: background 120ms ease, box-shadow 120ms ease, transform 80ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-button,
+  button:not([class*="ui-"]),
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    transition: none;
+    transform: none;
+  }
+}
+
+
+/* --- 6. TYPOGRAPHY ------------------------------------------------------- */
+/* Adjusts weight, tracking, line-height; font-family and size left to Unraid. */
+
+/* Body — dot grid texture using espresso-tinted dots */
+body {
+  line-height: 1.5;
+  background-color: var(--cr-bg);
+  background-image: radial-gradient(circle, rgba(38, 21, 9, 0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Navigation items */
+.nav a,
+.nav li > a,
+#navigation a,
+#navigation li > a {
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+/* Headings */
+h1 { font-weight: 600; letter-spacing: -0.01em; line-height: 1.3;  }
+h2 { font-weight: 600; letter-spacing: 0;        line-height: 1.35; }
+h3 { font-weight: 600; letter-spacing: 0;        line-height: 1.4;  }
+
+/* Table headers */
+th,
+thead td {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+
+/* --- 6b. BUTTON ICON INHERITANCE ---------------------------------------- */
+/* Icons inside buttons inherit the button's cream text color rather than
+   picking up --dashboard-icon-color (copper), which causes copper-on-copper
+   contrast failure when a button has the copper gradient background.         */
+
+.ui-button i[class],
+button:not([class*="ui-"]) i[class],
+input[type="button"] i[class],
+input[type="submit"] i[class],
+input[type="reset"] i[class] {
+  color: inherit;
+  fill: inherit;
+}
+
+/* Dashboard open/close chevron controls — these <i> elements act as buttons.
+   Ensure espresso text on surface background; no copper-on-copper bleed.    */
+i.control,
+.control.openclose,
+i.openclose {
+  color: var(--cr-text-primary) !important;
+}
+
+
+/* --- 7. DASHBOARD WIDGETS ------------------------------------------------ */
+/* Dynamix dashboard vars set color tokens but not geometry (radius, spacing). */
+
+.widget,
+.dashboard-widget,
+[class*="widget-"] {
+  border-radius: 6px;
+  border: 1px solid var(--cr-border);
+}
+
+.widget h2,
+.dashboard-widget h2,
+[class*="widget-"] h2 {
+  color: var(--cr-text-primary);
+  border-bottom: 1px solid var(--cr-border-subtle);
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+/* Usage/progress bar fill */
+.usage-bar-used,
+[class*="usage"][class*="used"],
+.bar-fill {
+  background: var(--cr-accent);
+}
+
+
+/* --- 8. FORM INPUTS — FOCUS STATE --------------------------------------- */
+/* --focus-input-bg-color covers background only; border-color change and
+   ambient glow box-shadow on focus require selector-level overrides.          */
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--cr-accent);
+  box-shadow: 0 0 0 2px rgba(144, 96, 80, 0.25); /* EXCEPTION: copper focus glow (--cr-accent rgb) */
+  outline: none;
+}
+
+
+/* --- 9. LINKS — HOVER AND VISITED --------------------------------------- */
+/* --link-text-color covers resting state. Hover/visited require selectors.
+   On light theme: hover darkens toward espresso (opposite to dark theme).     */
+
+a {
+  color: var(--cr-accent);
+}
+
+a:hover {
+  color: var(--cr-accent-hover); /* darken on hover — light theme convention */
+}
+
+/* Suppress browser-default purple for visited links on cream canvas */
+a:visited {
+  color: var(--cr-accent);
+}
+
+/* Dynamix hardcodes .blue-text to rgb(72,109,186) — override to copper accent */
+.blue-text {
+  color: var(--cr-accent) !important;
+}
+
+
+/* --- 10. HEADER — LIGHT TREATMENT --------------------------------------- */
+/* Crema uses a fully light header (--cr-surface) with a copper bottom border.
+   The dark header treatment belongs to Ristretto.
+   --header-text-primary controls bell/server/key icons in React My Servers.  */
+
+/* Header surface + copper anchor line */
+#header,
+header,
+.header {
+  background-color: var(--cr-surface);
+  border-bottom: 2px solid var(--cr-accent);
+  box-shadow: 0 2px 6px rgba(38, 21, 9, 0.10); /* EXCEPTION: espresso lift shadow (--cr-text-primary rgb) */
+}
+
+/* Tower hostname and other Tailwind-rendered header text.
+   Tailwind's text-header-text-primary utility expects --header-text-primary
+   as an RGB triplet, not a hex value, so the Layer 2 var() override cannot
+   reach it. Override the class directly.                                       */
+.text-header-text-primary {
+  color: var(--cr-text-primary) !important;
+}
+
+/* Hamburger bars — use background-color (not color/fill), so variable overrides
+   don't reach them. Three <span> bars inside #hamburger get white background
+   from Dynamix dark-theme defaults.                                            */
+#hamburger span,
+.navbar-toggle span,
+button.hamburger span,
+.hamburger-icon span {
+  background-color: var(--cr-text-primary) !important;
+}
+
+/* Bell, tower, server, key icons — Font Awesome or SVG in header.
+   These may have color: white from Dynamix specificity; !important required.   */
+#header .fa,
+#header .fas,
+#header .far,
+#header .fal,
+#header [class*="fa-"],
+#header i[class],
+#header svg path,
+.navbar [class*="fa-"],
+.navbar i[class],
+#notifications i[class],
+#notifications svg path,
+#myservers i[class],
+#myservers svg path {
+  color: var(--cr-text-primary) !important;
+  fill: var(--cr-text-primary) !important;
+}
+
+
+/* --- 11. SURFACE-2 INTERACTIVE ELEMENTS --------------------------------- */
+/* --cr-accent on --cr-surface-2 is ~2.75:1 — fails WCAG AA
+   for UI components. Use --cr-accent-hover (~3.65:1) instead on
+   elevated surfaces: focused input labels, modal CTAs, active dropdown options */
+
+.modal a,
+.modal button,
+[class*="modal"] a,
+[class*="modal"] button,
+input:focus + label,
+select:focus + label,
+.dropdown-option.active,
+.dropdown-option:focus {
+  color: var(--cr-accent-hover);
+}
+
+/* Focused card and hovered tile — specular highlight */
+.card:focus,
+.card:focus-within,
+.tile:hover,
+[class*="dashboard-widget"]:hover {
+  background-color: var(--cr-surface-highlight);
+}
+
+
+/* --- 12. TABLE ROW STATES ------------------------------------------------ */
+/* --hover-table-row-background-color is in Layer 2 but not all tablesorter
+   contexts pick it up. This selector ensures warm copper hover reaches
+   standard table rows even where the Dynamix variable doesn't propagate.      */
+
+tr:hover td,
+tbody tr:hover {
+  background-color: rgba(144, 96, 80, 0.08) !important; /* EXCEPTION: same value as Layer 2 var (--cr-accent rgb) */
+}
+
+/* Zebra stripe — backup for contexts the tablesorter vars don't reach */
+tbody tr:nth-child(even) {
+  background-color: var(--cr-surface);
+}
+
+
+/* --- 13. SELECT OPTION BACKGROUNDS -------------------------------------- */
+/* select option background is OS-determined on Windows/Linux even with a CSS
+   variable on the select itself. Override explicitly to prevent white/gray
+   OS bleed into the warm palette.                                              */
+
+select option {
+  background-color: var(--cr-bg);
+  color: var(--cr-text-primary);
+}
+
+select option:disabled {
+  color: var(--cr-text-disabled);
+}
+
+
+/* --- 14. PRE AND CODE BLOCKS -------------------------------------------- */
+/* Unraid log viewers and settings pages render <pre> and <code> blocks.
+   On a light theme the browser-default white background stands out against
+   the cream canvas. Use --cr-surface-2 for a warm, slightly elevated feel.   */
+
+pre,
+code {
+  background-color: var(--cr-surface-2);
+  color: var(--cr-text-primary);
+  border: 1px solid var(--cr-border);
+  border-radius: 3px;
+}
+
+pre {
+  padding: 12px;
+  overflow-x: auto;
+}
+
+code {
+  padding: 1px 4px;
+}
+
+
+/* --- 15. RANGE, TOGGLE, AND DISABLED FORM ELEMENTS --------------------- */
+/* Dashboard fan curves use range sliders; settings use toggle switches.
+   accent-color is the modern property for checkbox/radio/range checked state.
+   Disabled state: text color + cursor, not just opacity (for screen readers). */
+
+input[type="range"] {
+  accent-color: var(--cr-accent);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--cr-accent);
+}
+
+/* Disabled form elements — apply disabled text color and cursor */
+input:disabled,
+select:disabled,
+textarea:disabled,
+input[type="range"]:disabled,
+input[type="checkbox"]:disabled,
+input[type="radio"]:disabled {
+  color: var(--cr-text-disabled);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Note on Dynamix color utility classes:
+   Dynamix hardcodes .blue-text (section 9 above overrides it). Audit for other
+   hardcoded utility classes before declaring Layer 3 complete — common suspects:
+   .red-text, .orange-text, .green-text. If found, apply the same !important
+   override pattern using the appropriate --cr-* token. */
+
+
+/* === END CREMA v1.0.0 === */
